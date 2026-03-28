@@ -1,0 +1,10 @@
+{
+  "nav": {"home": "Startseite", "summary": "Zusammenfassung", "history": "Verlauf", "language": "Sprache"},
+  "home": {"title": "Automatischer Berichtsgenerator", "subtitle": "Erstellen Sie in Sekunden einen professionellen Bericht.", "formInput": "Formulareingabe", "pasteText": "Text Einfügen", "name": "Vollständiger Name", "department": "Abteilung / Rolle", "date": "Datum", "timeIn": "Ankunftszeit", "timeOut": "Abfahrtszeit", "tasks": "Aufgaben", "addTask": "Aufgabe Hinzufügen", "notes": "Notizen / Bemerkungen", "clear": "Löschen", "generate": "Bericht Erstellen", "generating": "Wird Erstellt...", "cancel": "Abbrechen", "required": "erforderlich"},
+  "templates": {"daily": "Täglicher Leistungsbericht", "weekly": "Wöchentlicher Zusammenfassungsbericht", "worklog": "Arbeitsprotokollbericht"},
+  "status": {"completed": "Abgeschlossen", "inProgress": "In Bearbeitung", "pending": "Ausstehend"},
+  "preview": {"loading": "Bericht wird geladen...", "newReport": "Neuer Bericht", "copy": "Text Kopieren", "copied": "Kopiert!", "exportPdf": "PDF Exportieren"},
+  "summary": {"title": "Freier Text → Zusammenfassungsbericht", "generate": "Zusammenfassungsbericht Erstellen"},
+  "history": {"title": "Berichtsverlauf", "empty": "Noch keine Berichte", "view": "Ansehen", "delete": "Löschen"},
+  "toast": {"reportGenerated": "Bericht erstellt!", "copied": "In Zwischenablage kopiert"}
+}

@@ -1,0 +1,116 @@
+# ============================================
+# Auto Report Generator - .gitignore
+# ============================================
+
+# ── SECURITY: Never commit these ──
+**/appsettings.Local.json
+**/appsettings.*.Local.json
+**/*secrets*.json
+**/*.key
+**/*.pem
+.env
+.env.local
+.env.*.local
+
+# ── Backend (ASP.NET Core) ──
+backend/bin/
+backend/obj/
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+backend/reports.db*
+backend/Properties/launchSettings.json
+backend/.vs/
+backend/*.user
+backend/*.suo
+backend/*.userosscache
+backend/*.sln.docstates
+backend/[Dd]ebug/
+backend/[Rr]elease/
+backend/x64/
+backend/x86/
+backend/[Aa]rm/
+backend/[Aa]rm64/
+backend/bld/
+backend/[Bb]in/
+backend/[Oo]bj/
+backend/[Ll]og/
+backend/[Ll]ogs/
+backend/.vscode/
+backend/*.swp
+backend/*~
+backend/.DS_Store
+
+# ── Frontend (React/Vite) ──
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*
+frontend/.DS_Store
+frontend/*.local
+frontend/.vscode/
+frontend/.idea/
+
+# ── IDE & Editor ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# ── OS Generated ──
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.AppleDouble
+.LSOverride
+._*
+
+# ── Logs ──
+*.log
+logs/
+*.log.*
+
+# ── Temporary files ──
+*.tmp
+*.temp
+*.cache
+*.bak
+*.old
+
+# ── Build artifacts ──
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.so
+*.dylib
+
+# ── Package files ──
+*.nupkg
+*.snupkg
+*.tgz
+*.zip
+*.tar.gz
+
+# ── Test coverage ──
+coverage/
+*.coverage
+*.coveragexml
+TestResults/
+
+# ── Documentation build ──
+docs/_build/
+site/

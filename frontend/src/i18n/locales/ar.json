@@ -1,0 +1,10 @@
+{
+  "nav": {"home": "الرئيسية", "summary": "ملخص", "history": "السجل", "language": "اللغة"},
+  "home": {"title": "مولد التقارير التلقائي", "subtitle": "إنشاء تقرير احترافي في ثوانٍ.", "formInput": "إدخال النموذج", "pasteText": "لصق النص", "name": "الاسم الكامل", "department": "القسم / الدور", "date": "التاريخ", "timeIn": "وقت الدخول", "timeOut": "وقت الخروج", "tasks": "المهام", "addTask": "إضافة مهمة", "notes": "ملاحظات / تعليقات", "clear": "مسح", "generate": "إنشاء التقرير", "generating": "جاري الإنشاء...", "cancel": "إلغاء", "required": "مطلوب"},
+  "templates": {"daily": "تقرير الإنجازات اليومية", "weekly": "تقرير الملخص الأسبوعي", "worklog": "تقرير سجل العمل"},
+  "status": {"completed": "مكتمل", "inProgress": "قيد التنفيذ", "pending": "معلق"},
+  "preview": {"loading": "جاري تحميل التقرير...", "newReport": "تقرير جديد", "copy": "نسخ النص", "copied": "تم النسخ!", "exportPdf": "تصدير PDF"},
+  "summary": {"title": "نص حر ← تقرير ملخص", "generate": "إنشاء تقرير ملخص"},
+  "history": {"title": "سجل التقارير", "empty": "لا توجد تقارير بعد", "view": "عرض", "delete": "حذف"},
+  "toast": {"reportGenerated": "تم إنشاء التقرير!", "copied": "تم النسخ إلى الحافظة"}
+}

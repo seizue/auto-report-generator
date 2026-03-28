@@ -1,0 +1,10 @@
+{
+  "nav": {"home": "首页", "summary": "摘要", "history": "历史", "language": "语言"},
+  "home": {"title": "自动报告生成器", "subtitle": "几秒钟内生成专业报告。", "formInput": "表单输入", "pasteText": "粘贴文本", "name": "全名", "department": "部门/角色", "date": "日期", "timeIn": "上班时间", "timeOut": "下班时间", "tasks": "任务", "addTask": "添加任务", "notes": "备注", "clear": "清除", "generate": "生成报告", "generating": "生成中...", "cancel": "取消", "required": "必填"},
+  "templates": {"daily": "每日成就报告", "weekly": "每周总结报告", "worklog": "工作日志报告"},
+  "status": {"completed": "已完成", "inProgress": "进行中", "pending": "待处理"},
+  "preview": {"loading": "加载报告中...", "newReport": "新报告", "copy": "复制文本", "copied": "已复制!", "exportPdf": "导出PDF"},
+  "summary": {"title": "自由文本 → 摘要报告", "generate": "生成摘要报告"},
+  "history": {"title": "报告历史", "empty": "暂无报告", "view": "查看", "delete": "删除"},
+  "toast": {"reportGenerated": "报告已生成!", "copied": "已复制到剪贴板"}
+}

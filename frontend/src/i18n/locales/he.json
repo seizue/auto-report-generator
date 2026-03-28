@@ -1,0 +1,10 @@
+{
+  "nav": {"home": "בית", "summary": "סיכום", "history": "היסטוריה", "language": "שפה"},
+  "home": {"title": "מחולל דוחות אוטומטי", "subtitle": "צור דוח מקצועי בשניות.", "formInput": "קלט טופס", "pasteText": "הדבק טקסט", "name": "שם מלא", "department": "מחלקה / תפקיד", "date": "תאריך", "timeIn": "שעת כניסה", "timeOut": "שעת יציאה", "tasks": "משימות", "addTask": "הוסף משימה", "notes": "הערות / הארות", "clear": "נקה", "generate": "צור דוח", "generating": "יוצר...", "cancel": "ביטול", "required": "נדרש"},
+  "templates": {"daily": "דוח הישגים יומי", "weekly": "דוח סיכום שבועי", "worklog": "דוח יומן עבודה"},
+  "status": {"completed": "הושלם", "inProgress": "בתהליך", "pending": "ממתין"},
+  "preview": {"loading": "טוען דוח...", "newReport": "דוח חדש", "copy": "העתק טקסט", "copied": "הועתק!", "exportPdf": "ייצא PDF"},
+  "summary": {"title": "טקסט חופשי ← דוח סיכום", "generate": "צור דוח סיכום"},
+  "history": {"title": "היסטוריית דוחות", "empty": "אין דוחות עדיין", "view": "צפה", "delete": "מחק"},
+  "toast": {"reportGenerated": "הדוח נוצר!", "copied": "הועתק ללוח"}
+}

@@ -1,0 +1,10 @@
+{
+  "nav": {"home": "ホーム", "summary": "概要", "history": "履歴", "language": "言語"},
+  "home": {"title": "自動レポートジェネレーター", "subtitle": "数秒でプロフェッショナルなレポートを生成します。", "formInput": "フォーム入力", "pasteText": "テキストを貼り付け", "name": "氏名", "department": "部署/役割", "date": "日付", "timeIn": "出勤時刻", "timeOut": "退勤時刻", "tasks": "タスク", "addTask": "タスクを追加", "notes": "メモ/備考", "clear": "クリア", "generate": "レポートを生成", "generating": "生成中...", "cancel": "キャンセル", "required": "必須"},
+  "templates": {"daily": "日次達成レポート", "weekly": "週次サマリーレポート", "worklog": "作業ログレポート"},
+  "status": {"completed": "完了", "inProgress": "進行中", "pending": "保留中"},
+  "preview": {"loading": "レポートを読み込み中...", "newReport": "新しいレポート", "copy": "テキストをコピー", "copied": "コピーしました!", "exportPdf": "PDFをエクスポート"},
+  "summary": {"title": "フリーテキスト → サマリーレポート", "generate": "サマリーレポートを生成"},
+  "history": {"title": "レポート履歴", "empty": "レポートがありません", "view": "表示", "delete": "削除"},
+  "toast": {"reportGenerated": "レポートが生成されました!", "copied": "クリップボードにコピーしました"}
+}

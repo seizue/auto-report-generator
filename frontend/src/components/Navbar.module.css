@@ -1,0 +1,38 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.brand {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 700; font-size: 18px; color: var(--primary);
+}
+.actions { display: flex; align-items: center; gap: 16px; }
+.link {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-muted); transition: color .15s;
+}
+.link:hover { color: var(--primary); }
+.summaryLink {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 13px; font-weight: 600;
+  background: var(--primary); color: #fff;
+  transition: background .15s;
+}
+.summaryLink:hover { background: var(--primary-dark); }
+.toggle {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 8px; cursor: pointer;
+  color: var(--text-muted); display: flex; align-items: center;
+  transition: border-color .15s, color .15s;
+}
+.toggle:hover { border-color: var(--primary); color: var(--primary); }

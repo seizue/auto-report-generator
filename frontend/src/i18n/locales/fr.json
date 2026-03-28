@@ -1,0 +1,18 @@
+{
+  "nav": {"home": "Accueil", "summary": "Résumé", "history": "Historique", "language": "Langue"},
+  "home": {
+    "title": "Générateur Automatique de Rapports", "subtitle": "Générez un rapport professionnel en quelques secondes.",
+    "editTitle": "Modifier et Régénérer", "formInput": "Saisie de Formulaire", "pasteText": "Coller le Texte",
+    "name": "Nom Complet", "department": "Département / Rôle", "date": "Date", "timeIn": "Heure d'Arrivée",
+    "timeOut": "Heure de Départ", "tasks": "Tâches", "addTask": "Ajouter une Tâche", "notes": "Notes / Remarques",
+    "clear": "Effacer", "prefill": "Pré-remplir l'Exemple", "generate": "Générer le Rapport",
+    "regenerate": "Régénérer le Rapport", "generating": "Génération...", "cancel": "Annuler", "required": "requis"
+  },
+  "templates": {"daily": "Rapport de Réalisations Quotidiennes", "weekly": "Rapport Résumé Hebdomadaire", "worklog": "Rapport de Journal de Travail"},
+  "status": {"completed": "Terminé", "inProgress": "En Cours", "pending": "En Attente"},
+  "preview": {"loading": "Chargement du rapport...", "newReport": "Nouveau Rapport", "edit": "Modifier et Régénérer", "copy": "Copier le Texte", "copied": "Copié!", "exportDocx": "Exporter DOCX", "exportPdf": "Exporter PDF"},
+  "summary": {"title": "Texte Libre → Rapport Résumé", "badge": "Résumé Intelligent", "generate": "Générer le Rapport Résumé", "generating": "Génération..."},
+  "history": {"title": "Historique des Rapports", "loading": "Chargement des rapports...", "empty": "Aucun rapport pour le moment", "view": "Voir", "delete": "Supprimer"},
+  "footer": {"tagline": "Générez des rapports professionnels en quelques secondes."},
+  "toast": {"reportGenerated": "Rapport généré!", "copied": "Copié dans le presse-papiers", "pdfDownloaded": "PDF téléchargé"}
+}
