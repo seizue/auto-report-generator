@@ -56,21 +56,34 @@ A fast, minimal web app for generating professional daily, weekly, and work log 
 
 ## Quick Start
 
-### 1. Clone & Setup
+### 1. Clone Repository
 ```bash
 git clone https://github.com/your-username/auto-report-generator.git
 cd auto-report-generator
 ```
 
 ### 2. Configure API Keys (Optional)
-See [SETUP.md](SETUP.md) for detailed instructions. Choose one method:
 
 **User Secrets (Recommended for Development):**
 ```bash
 cd backend
+dotnet user-secrets init
 dotnet user-secrets set "AI:Groq:ApiKey" "your_key_here"
 dotnet user-secrets set "AI:HuggingFace:ApiKey" "your_key_here"
 dotnet user-secrets set "AI:TogetherAI:ApiKey" "your_key_here"
+```
+
+**Environment Variables (Production):**
+```bash
+# Linux/Mac
+export AI__Groq__ApiKey="your_key_here"
+export AI__HuggingFace__ApiKey="your_key_here"
+export AI__TogetherAI__ApiKey="your_key_here"
+
+# Windows PowerShell
+$env:AI__Groq__ApiKey="your_key_here"
+$env:AI__HuggingFace__ApiKey="your_key_here"
+$env:AI__TogetherAI__ApiKey="your_key_here"
 ```
 
 **Note:** System works without API keys using built-in heuristic analysis!
@@ -93,9 +106,6 @@ npm run dev
 
 ### 5. Access Application
 Open http://localhost:5173 in your browser
-
-For detailed setup instructions, see [SETUP.md](SETUP.md)  
-For deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ## Configuration
 
@@ -156,11 +166,6 @@ Return Enhanced Report
 - **Recommended**: Add Groq + Hugging Face (better reliability)
 - **Maximum**: Add all three (24/7 AI availability guaranteed)
 - **No Setup**: Leave empty - uses heuristic analysis (works great!)
-
-See detailed setup instructions:
-- [AI_SETUP.md](backend/AI_SETUP.md) - Complete setup guide for all providers
-- [GROQ_SETUP_GUIDE.md](backend/GROQ_SETUP_GUIDE.md) - Step-by-step Groq setup with screenshots
-- [API_KEY_CHEATSHEET.md](backend/API_KEY_CHEATSHEET.md) - Quick reference guide
 
 **Note**: System works perfectly without any API keys using built-in heuristic analysis (sentiment analysis, opportunity detection, risk identification, smart recommendations).
 
