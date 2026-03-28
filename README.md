@@ -62,33 +62,7 @@ git clone https://github.com/your-username/auto-report-generator.git
 cd auto-report-generator
 ```
 
-### 2. Configure API Keys (Optional)
-
-**User Secrets (Recommended for Development):**
-```bash
-cd backend
-dotnet user-secrets init
-dotnet user-secrets set "AI:Groq:ApiKey" "your_key_here"
-dotnet user-secrets set "AI:HuggingFace:ApiKey" "your_key_here"
-dotnet user-secrets set "AI:TogetherAI:ApiKey" "your_key_here"
-```
-
-**Environment Variables (Production):**
-```bash
-# Linux/Mac
-export AI__Groq__ApiKey="your_key_here"
-export AI__HuggingFace__ApiKey="your_key_here"
-export AI__TogetherAI__ApiKey="your_key_here"
-
-# Windows PowerShell
-$env:AI__Groq__ApiKey="your_key_here"
-$env:AI__HuggingFace__ApiKey="your_key_here"
-$env:AI__TogetherAI__ApiKey="your_key_here"
-```
-
-**Note:** System works without API keys using built-in heuristic analysis!
-
-### 3. Run Backend
+### 2. Run Backend
 ```bash
 cd backend
 dotnet restore
@@ -96,7 +70,7 @@ dotnet run
 # API runs on http://localhost:5000
 ```
 
-### 4. Run Frontend
+### 3. Run Frontend
 ```bash
 cd frontend
 npm install
@@ -104,21 +78,9 @@ npm run dev
 # UI runs on http://localhost:5173
 ```
 
-### 5. Access Application
+### 4. Access Application
 Open http://localhost:5173 in your browser
 
-## Configuration
-
-### Security Notice
-⚠️ **NEVER commit API keys to version control!**
-
-This repository uses empty API key placeholders in config files. Configure your keys using one of these methods:
-
-1. **User Secrets** (Development): `dotnet user-secrets set "AI:Groq:ApiKey" "your_key"`
-2. **Environment Variables** (Production): `export AI__Groq__ApiKey="your_key"`
-3. **Local Config File** (Not committed): Create `appsettings.Local.json`
-
-See [SETUP.md](SETUP.md) for detailed instructions.
 
 ### AI Enhancement (Optional but Recommended)
 
@@ -302,7 +264,6 @@ If Groq hits rate limit or fails, system automatically tries Hugging Face. If th
 - **One-Click Add**: Add suggested tasks with a single click
 - **Keyword Extraction**: Discover common themes in your work
 
-**Setup**: All AI providers are free with no credit card required. See [AI_SETUP.md](backend/AI_SETUP.md) for API key setup. Works perfectly without any API keys using heuristic analysis.
 
 ### AI Fallback System
 The report generator includes a resilient multi-provider AI system that ensures reports are always generated with insights:
