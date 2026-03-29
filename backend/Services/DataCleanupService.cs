@@ -39,8 +39,15 @@ public class DataCleanupService : BackgroundService
             _retentionPeriod.TotalDays, 
             _checkInterval.TotalHours);
 
-        // Run cleanup immediately on startup
-        await CleanupOldReportsAsync(stoppingToken);
+        // Run cleanup immediately on startup (with error handling)
+        try
+        {
+            await CleanupOldReportsAsync(stoppingToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Initial cleanup failed, will retry on next interval");
+        }
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -74,29 +81,37 @@ public class DataCleanupService : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        var cutoffDate = DateTime.UtcNow - _retentionPeriod;
-
-        // Find all reports older than the retention period
-        var oldReports = await db.Reports
-            .Where(r => r.CreatedAt < cutoffDate)
-            .ToListAsync(cancellationToken);
-
-        if (oldReports.Any())
+        try
         {
-            _logger.LogInformation(
-                "Deleting {Count} reports older than {Date} (created before {Cutoff})", 
-                oldReports.Count, 
-                _retentionPeriod.TotalDays + " days ago",
-                cutoffDate);
-            
-            db.Reports.RemoveRange(oldReports);
-            await db.SaveChangesAsync(cancellationToken);
+            var cutoffDate = DateTime.UtcNow - _retentionPeriod;
 
-            _logger.LogInformation("Successfully deleted {Count} old reports", oldReports.Count);
+            // Find all reports older than the retention period
+            var oldReports = await db.Reports
+                .Where(r => r.CreatedAt < cutoffDate)
+                .ToListAsync(cancellationToken);
+
+            if (oldReports.Any())
+            {
+                _logger.LogInformation(
+                    "Deleting {Count} reports older than {Date} (created before {Cutoff})", 
+                    oldReports.Count, 
+                    _retentionPeriod.TotalDays + " days ago",
+                    cutoffDate);
+                
+                db.Reports.RemoveRange(oldReports);
+                await db.SaveChangesAsync(cancellationToken);
+
+                _logger.LogInformation("Successfully deleted {Count} old reports", oldReports.Count);
+            }
+            else
+            {
+                _logger.LogDebug("No old reports to delete. Cutoff date: {Date}", cutoffDate);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            _logger.LogDebug("No old reports to delete. Cutoff date: {Date}", cutoffDate);
+            _logger.LogWarning(ex, "Unable to perform automatic cleanup. This may be due to database type mismatch. Manual cleanup may be required.");
+            // Don't throw - let the service continue running
         }
     }
 }

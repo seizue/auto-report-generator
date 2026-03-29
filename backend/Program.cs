@@ -85,11 +85,7 @@ builder.Services.AddScoped<SummaryReportService>();
 builder.Services.AddScoped<SummaryExportService>();
 
 // Background service for automatic data cleanup (deletes reports older than 2 days)
-// Disabled in production due to TEXT vs TIMESTAMP comparison issue with PostgreSQL
-if (!builder.Environment.IsProduction())
-{
-    builder.Services.AddHostedService<DataCleanupService>();
-}
+builder.Services.AddHostedService<DataCleanupService>();
 
 builder.Services.AddControllers();
 builder.Services.AddCors(opt =>
