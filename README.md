@@ -4,15 +4,13 @@ AI-powered report generator that transforms raw text into professional reports w
 
 ## 🚀 Live Demo
 
-**Try it now:** [https://your-app.vercel.app](https://your-app.vercel.app)
+**Try it now:** [https://auto-report-generator-rouge.vercel.app/](https://auto-report-generator-rouge.vercel.app/)
 
 - **Frontend**: Deployed on Vercel
 - **Backend**: Deployed on Render
 - **Database**: PostgreSQL on Render
 
 > Note: First request may take 30-60 seconds as the free tier backend spins up from sleep.
-
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/seizue/auto-report-generator&project-name=auto-report-generator&repository-name=auto-report-generator&root-directory=frontend&env=VITE_API_URL&envDescription=Backend%20API%20URL&envLink=https://github.com/seizue/auto-report-generator)
 
 ## Features
 
@@ -33,54 +31,6 @@ AI-powered report generator that transforms raw text into professional reports w
 - **OCR**: Tesseract, iText 7, PDFtoImage
 - **Export**: QuestPDF, DocumentFormat.OpenXml
 
-## Quick Deploy (Free)
-
-### Deploy Frontend to Vercel
-
-1. Click the "Deploy to Vercel" button above
-2. Connect your GitHub account
-3. Set environment variable:
-   - `VITE_API_URL`: Your Render backend URL + `/api` (e.g., `https://your-app.onrender.com/api`)
-4. Click "Deploy"
-
-### Deploy Backend to Render
-
-1. Go to [Render Dashboard](https://dashboard.render.com/)
-2. Click **"New +"** → **"Web Service"**
-3. Connect your GitHub repository
-4. Configure:
-   - **Name**: `auto-report-generator`
-   - **Region**: Choose closest to you
-   - **Branch**: `main`
-   - **Root Directory**: `backend`
-   - **Runtime**: **Docker**
-   - **Plan**: **Free**
-
-5. Add Environment Variables:
-   ```
-   ASPNETCORE_ENVIRONMENT=Production
-   ASPNETCORE_URLS=http://0.0.0.0:$PORT
-   UsePostgres=true
-   AI__Groq__ApiKey=your_groq_key (optional)
-   AI__HuggingFace__ApiKey=your_hf_key (optional)
-   AI__TogetherAI__ApiKey=your_together_key (optional)
-   ```
-
-6. Create PostgreSQL Database:
-   - Click **"New +"** → **"PostgreSQL"**
-   - Name: `auto-report-db`
-   - Region: Same as web service
-   - Plan: **Free**
-   - Copy **Internal Database URL**
-
-7. Add to Web Service environment variables:
-   ```
-   ConnectionStrings__Postgres=<paste Internal Database URL>
-   ```
-
-8. Click **"Create Web Service"**
-
-Your app will be live in 5-10 minutes!
 
 ## Local Development
 
