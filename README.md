@@ -2,6 +2,8 @@
 
 AI-powered report generator that transforms raw text into professional reports with charts, insights, and multi-format exports.
 
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/seizue/auto-report-generator&project-name=auto-report-generator&repository-name=auto-report-generator&root-directory=frontend&env=VITE_API_URL&envDescription=Backend%20API%20URL&envLink=https://github.com/seizue/auto-report-generator)
+
 ## Features
 
 - **18+ Report Types**: Financial, Incident, Meeting, Academic, Strategy, and more
@@ -15,13 +17,62 @@ AI-powered report generator that transforms raw text into professional reports w
 
 ## Tech Stack
 
-- **Backend**: ASP.NET Core 8, Entity Framework Core, SQLite/PostgreSQL
+- **Backend**: ASP.NET Core 8, Entity Framework Core, PostgreSQL
 - **Frontend**: React + Vite, Recharts
 - **AI**: Groq (Llama 3.1), Hugging Face (Mistral), Together AI (Mixtral)
 - **OCR**: Tesseract, iText 7, PDFtoImage
 - **Export**: QuestPDF, DocumentFormat.OpenXml
 
-## Quick Start
+## Quick Deploy (Free)
+
+### Deploy Frontend to Vercel
+
+1. Click the "Deploy to Vercel" button above
+2. Connect your GitHub account
+3. Set environment variable:
+   - `VITE_API_URL`: Your Render backend URL + `/api` (e.g., `https://your-app.onrender.com/api`)
+4. Click "Deploy"
+
+### Deploy Backend to Render
+
+1. Go to [Render Dashboard](https://dashboard.render.com/)
+2. Click **"New +"** → **"Web Service"**
+3. Connect your GitHub repository
+4. Configure:
+   - **Name**: `auto-report-generator`
+   - **Region**: Choose closest to you
+   - **Branch**: `main`
+   - **Root Directory**: `backend`
+   - **Runtime**: **Docker**
+   - **Plan**: **Free**
+
+5. Add Environment Variables:
+   ```
+   ASPNETCORE_ENVIRONMENT=Production
+   ASPNETCORE_URLS=http://0.0.0.0:$PORT
+   UsePostgres=true
+   AI__Groq__ApiKey=your_groq_key (optional)
+   AI__HuggingFace__ApiKey=your_hf_key (optional)
+   AI__TogetherAI__ApiKey=your_together_key (optional)
+   ```
+
+6. Create PostgreSQL Database:
+   - Click **"New +"** → **"PostgreSQL"**
+   - Name: `auto-report-db`
+   - Region: Same as web service
+   - Plan: **Free**
+   - Copy **Internal Database URL**
+
+7. Add to Web Service environment variables:
+   ```
+   ConnectionStrings__Postgres=<paste Internal Database URL>
+   ```
+
+8. Click **"Create Web Service"**
+
+Your app will be live in 5-10 minutes!
+
+## Local Development
 
 ### Prerequisites
 - .NET 8 SDK
@@ -67,9 +118,9 @@ dotnet user-secrets set "AI:TogetherAI:ApiKey" "your_key"
 
 **Environment Variables (Production):**
 ```bash
-export AI__Groq__ApiKey="your_key"
-export AI__HuggingFace__ApiKey="your_key"
-export AI__TogetherAI__ApiKey="your_key"
+AI__Groq__ApiKey=your_key
+AI__HuggingFace__ApiKey=your_key
+AI__TogetherAI__ApiKey=your_key
 ```
 
 **Get Free API Keys:**
@@ -82,11 +133,15 @@ export AI__TogetherAI__ApiKey="your_key"
 ## Configuration
 
 ### Database
-Default: SQLite (auto-created). For PostgreSQL, update `backend/appsettings.json`:
+- **Development**: SQLite (auto-created)
+- **Production**: PostgreSQL (recommended for Render/cloud deployment)
+
+Configure in `backend/appsettings.json`:
 ```json
 {
-  "UsePostgres": true,
+  "UsePostgres": false,  // true for production
   "ConnectionStrings": {
+    "Sqlite": "Data Source=reports.db",
     "Postgres": "Host=localhost;Database=autoreport;Username=postgres;Password=yourpassword"
   }
 }
@@ -132,13 +187,21 @@ auto-report-generator/
 │   ├── Services/          # Business logic
 │   ├── Models/            # Data models
 │   ├── Data/              # Database context
-│   └── Migrations/        # EF Core migrations
+│   ├── Migrations/        # EF Core migrations
+│   └── Dockerfile         # Docker configuration
 └── frontend/
-    └── src/
-        ├── components/    # UI components
-        ├── pages/         # Page components
-        └── services/      # API client
+    ├── src/
+    │   ├── components/    # UI components
+    │   ├── pages/         # Page components
+    │   └── services/      # API client
+    └── vercel.json        # Vercel configuration
 ```
+
+## Free Tier Limits
+
+- **Vercel**: Unlimited bandwidth, 100 GB-hours build time/month
+- **Render**: 750 hours/month (enough for 24/7), 512 MB RAM
+- **PostgreSQL**: 1 GB storage, 97 hours/month (enough for development)
 
 ## License
 
