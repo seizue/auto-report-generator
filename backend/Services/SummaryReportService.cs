@@ -304,7 +304,7 @@ public class SummaryReportService
             }
         };
 
-        return new SummaryReportResult
+        return Task.FromResult(new SummaryReportResult
         {
             Title = "Certificate Summary",
             AuthorName = recipientName ?? request.AuthorName,
