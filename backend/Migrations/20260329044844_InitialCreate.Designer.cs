@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoReportGenerator.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260326111753_AddListStyle")]
-    partial class AddListStyle
+    [Migration("20260329044844_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

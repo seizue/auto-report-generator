@@ -26,6 +26,7 @@ namespace AutoReportGenerator.Migrations
                     TimeOut = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     Notes = table.Column<string>(type: "TEXT", nullable: false),
                     TemplateType = table.Column<string>(type: "TEXT", nullable: false),
+                    ListStyle = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
