@@ -10,39 +10,57 @@ namespace AutoReportGenerator.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Only run this for PostgreSQL, not SQLite
+            // Only run for PostgreSQL - convert TEXT columns to proper types
             migrationBuilder.Sql(@"
+                -- Check if columns are TEXT type (SQLite format) and convert to PostgreSQL types
                 DO $$ 
                 BEGIN
-                    -- Check if we're using PostgreSQL (not SQLite)
-                    IF EXISTS (SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'public' AND tablename = 'Reports') THEN
-                        -- Convert CreatedAt from TEXT to TIMESTAMP
-                        ALTER TABLE ""Reports"" 
-                        ALTER COLUMN ""CreatedAt"" TYPE timestamp without time zone 
-                        USING ""CreatedAt""::timestamp without time zone;
-                        
-                        -- Convert Date from TEXT to TIMESTAMP
-                        ALTER TABLE ""Reports"" 
-                        ALTER COLUMN ""Date"" TYPE timestamp without time zone 
-                        USING ""Date""::timestamp without time zone;
-                        
-                        -- Convert TimeIn from TEXT to INTERVAL
-                        ALTER TABLE ""Reports"" 
-                        ALTER COLUMN ""TimeIn"" TYPE interval 
-                        USING ""TimeIn""::interval;
-                        
-                        -- Convert TimeOut from TEXT to INTERVAL
-                        ALTER TABLE ""Reports"" 
-                        ALTER COLUMN ""TimeOut"" TYPE interval 
-                        USING ""TimeOut""::interval;
-                        
-                        -- Convert IsPremium from INTEGER to BOOLEAN
-                        ALTER TABLE ""Templates"" 
-                        ALTER COLUMN ""IsPremium"" TYPE boolean 
-                        USING CASE WHEN ""IsPremium"" = 0 THEN false ELSE true END;
+                    -- Fix CreatedAt column
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns 
+                        WHERE table_name = 'Reports' AND column_name = 'CreatedAt' 
+                        AND data_type = 'text'
+                    ) THEN
+                        ALTER TABLE ""Reports"" ALTER COLUMN ""CreatedAt"" TYPE timestamp USING ""CreatedAt""::timestamp;
+                    END IF;
+                    
+                    -- Fix Date column
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns 
+                        WHERE table_name = 'Reports' AND column_name = 'Date' 
+                        AND data_type = 'text'
+                    ) THEN
+                        ALTER TABLE ""Reports"" ALTER COLUMN ""Date"" TYPE timestamp USING ""Date""::timestamp;
+                    END IF;
+                    
+                    -- Fix TimeIn column
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns 
+                        WHERE table_name = 'Reports' AND column_name = 'TimeIn' 
+                        AND data_type = 'text'
+                    ) THEN
+                        ALTER TABLE ""Reports"" ALTER COLUMN ""TimeIn"" TYPE interval USING ""TimeIn""::interval;
+                    END IF;
+                    
+                    -- Fix TimeOut column
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns 
+                        WHERE table_name = 'Reports' AND column_name = 'TimeOut' 
+                        AND data_type = 'text'
+                    ) THEN
+                        ALTER TABLE ""Reports"" ALTER COLUMN ""TimeOut"" TYPE interval USING ""TimeOut""::interval;
+                    END IF;
+                    
+                    -- Fix IsPremium column
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.columns 
+                        WHERE table_name = 'Templates' AND column_name = 'IsPremium' 
+                        AND data_type = 'integer'
+                    ) THEN
+                        ALTER TABLE ""Templates"" ALTER COLUMN ""IsPremium"" TYPE boolean USING (""IsPremium"" != 0);
                     END IF;
                 END $$;
-            ");
+            ", suppressTransaction: true);
         }
 
         /// <inheritdoc />
