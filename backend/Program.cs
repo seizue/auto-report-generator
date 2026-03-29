@@ -22,7 +22,7 @@ if (usePostgres)
     {
         // Trim whitespace
         connectionString = connectionString.Trim();
-        Console.WriteLine($"Connection string (first 50 chars): {connectionString.Substring(0, Math.Min(50, connectionString.Length))}");
+        Console.WriteLine($"FULL Connection string: {connectionString}");
     }
     
     if (string.IsNullOrWhiteSpace(connectionString))
