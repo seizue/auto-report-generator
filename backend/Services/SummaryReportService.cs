@@ -272,7 +272,7 @@ public class SummaryReportService
     }
 
     // ── Certificate/Formal Document Handler ────────────────────────────────
-    private async Task<SummaryReportResult> GenerateCertificateSummary(SummaryReportRequest request, string raw)
+    private Task<SummaryReportResult> GenerateCertificateSummary(SummaryReportRequest request, string raw)
     {
         var lines = raw.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(l => l.Trim())
@@ -333,7 +333,7 @@ public class SummaryReportService
             FormattedText = formatted,
             AiProvider = "Heuristic",
             AiEnhanced = false
-        };
+        });
     }
 
     private static string? ExtractRecipientName(string text)
