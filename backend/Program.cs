@@ -7,15 +7,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database — use SQLite for local dev, PostgreSQL for production
 var usePostgres = builder.Configuration.GetValue<bool>("UsePostgres");
+Console.WriteLine($"UsePostgres: {usePostgres}");
+
 if (usePostgres)
 {
     var connectionString = builder.Configuration.GetConnectionString("Postgres");
-    if (string.IsNullOrEmpty(connectionString))
+    Console.WriteLine($"Connection string is null: {connectionString == null}");
+    Console.WriteLine($"Connection string length: {connectionString?.Length ?? 0}");
+    
+    if (!string.IsNullOrWhiteSpace(connectionString))
+    {
+        // Trim whitespace
+        connectionString = connectionString.Trim();
+        Console.WriteLine($"Connection string (first 50 chars): {connectionString.Substring(0, Math.Min(50, connectionString.Length))}");
+    }
+    
+    if (string.IsNullOrWhiteSpace(connectionString))
     {
         throw new InvalidOperationException(
             "PostgreSQL connection string is not configured. " +
             "Please set the ConnectionStrings__Postgres environment variable.");
     }
+    
     builder.Services.AddDbContext<AppDbContext>(opt =>
         opt.UseNpgsql(connectionString));
 }
