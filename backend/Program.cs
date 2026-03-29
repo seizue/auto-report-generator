@@ -11,7 +11,10 @@ Console.WriteLine($"UsePostgres: {usePostgres}");
 
 if (usePostgres)
 {
-    var connectionString = builder.Configuration.GetConnectionString("Postgres");
+    // Try to get from environment variable first, then fall back to configuration
+    var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Postgres") 
+                          ?? builder.Configuration.GetConnectionString("Postgres");
+    
     Console.WriteLine($"Connection string is null: {connectionString == null}");
     Console.WriteLine($"Connection string length: {connectionString?.Length ?? 0}");
     
