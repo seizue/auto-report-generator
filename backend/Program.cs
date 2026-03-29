@@ -9,8 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 var usePostgres = builder.Configuration.GetValue<bool>("UsePostgres");
 if (usePostgres)
 {
+    var connectionString = builder.Configuration.GetConnectionString("Postgres");
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException(
+            "PostgreSQL connection string is not configured. " +
+            "Please set the ConnectionStrings__Postgres environment variable.");
+    }
     builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
+        opt.UseNpgsql(connectionString));
 }
 else
 {
