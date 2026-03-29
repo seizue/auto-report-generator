@@ -23,6 +23,21 @@ if (usePostgres)
         // Trim whitespace
         connectionString = connectionString.Trim();
         Console.WriteLine($"FULL Connection string: {connectionString}");
+        
+        // If it's a PostgreSQL URI (starts with postgresql://), convert to Npgsql format
+        if (connectionString.StartsWith("postgresql://") || connectionString.StartsWith("postgres://"))
+        {
+            var uri = new Uri(connectionString.Replace("postgresql://", "postgres://"));
+            var host = uri.Host;
+            var port = uri.Port > 0 ? uri.Port : 5432;
+            var database = uri.AbsolutePath.TrimStart('/');
+            var userInfo = uri.UserInfo.Split(':');
+            var username = userInfo[0];
+            var password = userInfo.Length > 1 ? userInfo[1] : "";
+            
+            connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+            Console.WriteLine($"Converted to Npgsql format");
+        }
     }
     
     if (string.IsNullOrWhiteSpace(connectionString))
