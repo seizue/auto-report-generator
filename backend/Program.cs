@@ -3,7 +3,21 @@ using AutoReportGenerator.Repositories;
 using AutoReportGenerator.Services;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = AppContext.BaseDirectory,
+    // Disable file watching in production
+    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"
+});
+
+// Disable file watching for configuration
+builder.Configuration.Sources.Clear();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables()
+    .AddUserSecrets<Program>(optional: true);
 
 // Database — use SQLite for local dev, PostgreSQL for production
 var usePostgres = builder.Configuration.GetValue<bool>("UsePostgres");
