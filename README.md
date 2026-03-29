@@ -2,6 +2,16 @@
 
 AI-powered report generator that transforms raw text into professional reports with charts, insights, and multi-format exports.
 
+## 🚀 Live Demo
+
+**Try it now:** [https://your-app.vercel.app](https://your-app.vercel.app)
+
+- **Frontend**: Deployed on Vercel
+- **Backend**: Deployed on Render
+- **Database**: PostgreSQL on Render
+
+> Note: First request may take 30-60 seconds as the free tier backend spins up from sleep.
+
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/seizue/auto-report-generator&project-name=auto-report-generator&repository-name=auto-report-generator&root-directory=frontend&env=VITE_API_URL&envDescription=Backend%20API%20URL&envLink=https://github.com/seizue/auto-report-generator)
 
 ## Features
