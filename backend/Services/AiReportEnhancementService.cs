@@ -189,7 +189,7 @@ public class AiReportEnhancementService
 
     private string BuildEnhancementPrompt(string rawText, string reportType, SummaryMetrics metrics)
     {
-        return $@"Analyze this {reportType} and provide 3-5 key insights, opportunities, risks, and recommendations.
+        return $@"Analyze this {reportType} and provide key insights, opportunities, risks, and recommendations.
 
 Report Content:
 {rawText.Substring(0, Math.Min(rawText.Length, 2000))}
@@ -200,20 +200,31 @@ Metrics:
 - Completed: {metrics.CompletedCount}
 - Pending: {metrics.PendingCount}
 
+Instructions:
+- Use markdown formatting in your response.
+- When the content contains tabular or comparative data (e.g. tasks by status, categories, financial figures, scores), present it as a markdown table.
+- Example table format:
+  | Category | Count | Status |
+  |----------|-------|--------|
+  | Development | 3 | Completed |
+- Use bullet points for non-tabular insights.
+
 Provide output in this format:
-KEY INSIGHTS:
-• [insight 1]
-• [insight 2]
 
-OPPORTUNITIES:
-• [opportunity 1]
+## Key Insights
+• [insight]
 
-RISKS:
-• [risk 1]
+## Summary Table
+[Include a markdown table here if the data warrants it, otherwise omit this section]
 
-RECOMMENDATIONS:
-• [recommendation 1]
-• [recommendation 2]
+## Opportunities
+• [opportunity]
+
+## Risks
+• [risk]
+
+## Recommendations
+• [recommendation]
 
 Keep it concise and actionable.";
     }

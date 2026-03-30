@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Sparkles, Copy, CheckCheck, Download, ChevronDown, ChevronUp, FileText, PenLine, RotateCcw, LayoutList, AlignLeft } from 'lucide-react'
 import toast from 'react-hot-toast'
 import html2canvas from 'html2canvas'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend, CartesianGrid
@@ -404,7 +406,9 @@ export default function SummaryPage() {
 
           <div className={styles.divider} />
           <div className={styles.sectionLabel}>Formatted Report Output</div>
-          <pre className={styles.formatted}>{result.formattedText}</pre>
+          <div className={styles.formatted}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{result.formattedText}</ReactMarkdown>
+          </div>
         </div>
       )}
     </main>

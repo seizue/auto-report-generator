@@ -169,8 +169,25 @@ body.dark .editingBanner { background: #451a0322; border-color: #d9770633; color
 .formatted {
   background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
   padding: 16px; font-family: 'Courier New', monospace; font-size: 12px;
-  line-height: 1.7; white-space: pre-wrap; overflow-x: auto; color: var(--text);
+  line-height: 1.7; overflow-x: auto; color: var(--text);
 }
+
+.formatted p { margin: 0 0 8px; white-space: pre-wrap; }
+.formatted h2 { font-size: 13px; font-weight: 700; margin: 12px 0 6px; color: var(--text); }
+.formatted ul { padding-left: 18px; margin: 0 0 8px; }
+.formatted li { margin-bottom: 4px; }
+
+.formatted table {
+  width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px;
+}
+.formatted th {
+  background: var(--surface); padding: 6px 10px; text-align: left;
+  border: 1px solid var(--border); font-weight: 600;
+}
+.formatted td {
+  padding: 6px 10px; border: 1px solid var(--border);
+}
+.formatted tr:nth-child(even) td { background: var(--surface); }
 
 .modeToggle {
   display: flex; gap: 4px; margin-bottom: 16px;
