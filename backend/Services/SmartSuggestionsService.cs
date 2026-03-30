@@ -113,7 +113,8 @@ public class SmartSuggestionsService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to get productivity insights for {EmployeeName}", employeeName);
+            var safeName = employeeName.ReplaceLineEndings(" ").Trim();
+            _logger.LogError(ex, "Failed to get productivity insights for {EmployeeName}", safeName);
             return new ProductivityInsights();
         }
     }
