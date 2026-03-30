@@ -14,7 +14,7 @@
     <PackageReference Include="itext7" Version="9.5.0" />
     <PackageReference Include="PDFtoImage" Version="5.2.0" />
     <PackageReference Include="QuestPDF" Version="2024.3.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
