@@ -2,7 +2,7 @@
 
 AI-powered report generator that transforms raw text into professional reports with charts, insights, and multi-format exports.
 
-## 🚀 Live Demo
+## Live Demo
 
 **Try it now:** [https://auto-report-generator-rouge.vercel.app/](https://auto-report-generator-rouge.vercel.app/)
 
