@@ -9,6 +9,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-wrap: wrap;
 }
 .brand {
   display: flex; align-items: center; gap: 8px;
@@ -34,5 +35,43 @@
   border-radius: 8px; padding: 6px 8px; cursor: pointer;
   color: var(--text-muted); display: flex; align-items: center;
   transition: border-color .15s, color .15s;
+  min-width: 36px; min-height: 36px; justify-content: center;
 }
 .toggle:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Mobile */
+.mobileRight { display: none; align-items: center; gap: 8px; }
+.hamburger {
+  background: none; border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 8px; cursor: pointer;
+  color: var(--text-muted); display: flex; align-items: center;
+  min-width: 36px; min-height: 36px; justify-content: center;
+  transition: border-color .15s, color .15s;
+}
+.hamburger:hover { border-color: var(--primary); color: var(--primary); }
+
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 12px 24px 16px;
+  gap: 4px;
+}
+.mobileLink {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 8px; font-size: 15px; font-weight: 500;
+  color: var(--text-muted); border-radius: 8px;
+  transition: color .15s, background .15s;
+  min-height: 44px;
+}
+.mobileLink:hover { color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
+.mobileLang { padding: 8px 8px 0; }
+
+@media (max-width: 640px) {
+  .nav { padding: 0 16px; position: relative; }
+  .actions { display: none; }
+  .mobileRight { display: flex; }
+  .mobileMenu { display: flex; }
+}

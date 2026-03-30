@@ -152,3 +152,9 @@
 .removeFile:hover {
   background: color-mix(in srgb, var(--danger) 15%, transparent);
 }
+
+@media (max-width: 480px) {
+  .dropZone { padding: 16px; }
+  .icon { width: 48px; height: 48px; }
+  .text { font-size: 13px; }
+}

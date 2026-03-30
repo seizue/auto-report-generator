@@ -167,3 +167,12 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@media (max-width: 480px) {
+  .insightGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .insightValue { font-size: 1.25rem; }
+  .section { padding: 1rem; }
+  .suggestion { font-size: 0.8125rem; padding: 0.5rem 0.75rem; }
+}

@@ -6,7 +6,7 @@
   display: flex; align-items: center; gap: 6px;
   background: none; border: 1.5px solid var(--border); border-radius: 8px;
   padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer;
-  color: var(--text-muted); transition: all .15s;
+  color: var(--text-muted); transition: all .15s; min-height: 44px;
 }
 .back:hover { border-color: var(--primary); color: var(--primary); }
 
@@ -16,6 +16,7 @@
   padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
   cursor: pointer; transition: all .15s;
   border: 1.5px solid var(--border); background: none; color: var(--text-muted);
+  min-height: 44px;
 }
 .copyBtn:hover, .exportBtn:hover { border-color: var(--primary); color: var(--primary); }
 .editBtn { border-color: #f59e0b; color: #92400e; background: #fef3c7; }
@@ -29,7 +30,7 @@ body.dark .editBtn { background: #451a0322; color: #fbbf24; border-color: #d9770
   border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow);
 }
 
-.reportHeader { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.reportHeader { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 .reportTitle { font-size: 20px; font-weight: 700; color: var(--primary); }
 .badge {
   padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
@@ -44,14 +45,14 @@ body.dark .editBtn { background: #451a0322; color: #fbbf24; border-color: #d9770
 .sectionLabel { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 12px; }
 
 .taskList { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.taskItem { display: flex; align-items: center; gap: 10px; }
+.taskItem { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .taskNum {
   width: 22px; height: 22px; border-radius: 50%;
   background: color-mix(in srgb, var(--primary) 12%, transparent);
   color: var(--primary); font-size: 11px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.taskText { flex: 1; font-size: 14px; }
+.taskText { flex: 1; font-size: 14px; min-width: 0; }
 .statusBadge { padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 .Completed { background: #d1fae5; color: #065f46; }
 .InProgress { background: #fef3c7; color: #92400e; }
@@ -63,4 +64,12 @@ body.dark .editBtn { background: #451a0322; color: #fbbf24; border-color: #d9770
   background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
   padding: 16px; font-family: 'Courier New', monospace; font-size: 13px;
   line-height: 1.7; white-space: pre-wrap; overflow-x: auto; color: var(--text);
+}
+
+@media (max-width: 480px) {
+  .main { padding: 16px 12px 48px; }
+  .previewCard { padding: 16px; }
+  .reportTitle { font-size: 16px; }
+  .exportBtns { width: 100%; }
+  .copyBtn, .exportBtn, .editBtn { flex: 1; justify-content: center; font-size: 12px; padding: 8px 10px; }
 }
