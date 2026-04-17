@@ -31,8 +31,11 @@ export default function ImageOcrUpload({ onExtracted }) {
       if (!data.text) {
         toast.error('No text detected in image', { id: toastId })
       } else {
-        onExtracted(data.text)
-        toast.success(`Extracted ${data.text.split('\n').length} line(s)`, { id: toastId })
+        const safeText = String(data.text)
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+        onExtracted(safeText)
+        toast.success(`Extracted ${safeText.split('\n').length} line(s)`, { id: toastId })
       }
     } catch {
       toast.error('OCR failed. Is the backend running?', { id: toastId })
