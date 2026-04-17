@@ -10,8 +10,10 @@ namespace AutoReportGenerator.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Only run for PostgreSQL - convert TEXT columns to proper types
-            migrationBuilder.Sql(@"
+            // Only run for PostgreSQL - SQLite doesn't support DO $$ blocks or ALTER COLUMN TYPE
+            if (migrationBuilder.ActiveProvider == "Npgsql.EntityFrameworkCore.PostgreSQL")
+            {
+                migrationBuilder.Sql(@"
                 -- Check if columns are TEXT type (SQLite format) and convert to PostgreSQL types
                 DO $$ 
                 BEGIN
@@ -61,6 +63,7 @@ namespace AutoReportGenerator.Migrations
                     END IF;
                 END $$;
             ", suppressTransaction: true);
+            }
         }
 
         /// <inheritdoc />
