@@ -80,9 +80,9 @@ namespace AutoReportGenerator.Migrations
                 columns: new[] { "Id", "Description", "IsPremium", "Name", "Type" },
                 values: new object[,]
                 {
-                    { 1, "Track your daily tasks and accomplishments.", 0, "Daily Accomplishment Report", "daily" },
-                    { 2, "Summarize your week's work and progress.", 0, "Weekly Summary Report", "weekly" },
-                    { 3, "Detailed time-based work log.", 0, "Work Log Report", "worklog" }
+                    { 1, "Track your daily tasks and accomplishments.", false, "Daily Accomplishment Report", "daily" },
+                    { 2, "Summarize your week's work and progress.", false, "Weekly Summary Report", "weekly" },
+                    { 3, "Detailed time-based work log.", false, "Work Log Report", "worklog" }
                 });
 
             migrationBuilder.CreateIndex(

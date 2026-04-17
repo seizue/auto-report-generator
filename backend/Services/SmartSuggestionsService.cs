@@ -50,7 +50,8 @@ public class SmartSuggestionsService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to get task suggestions for {EmployeeName}", employeeName);
+            var safeName = employeeName.ReplaceLineEndings(" ").Trim();
+            _logger.LogError(ex, "Failed to get task suggestions for {EmployeeName}", safeName);
             return new List<string>();
         }
     }
