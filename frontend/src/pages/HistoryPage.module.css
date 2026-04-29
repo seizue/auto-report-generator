@@ -104,6 +104,37 @@
   width: 20px; height: 20px; cursor: pointer; margin-right: 8px; flex-shrink: 0;
 }
 
+/* ── Skeleton loader ── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.skeletonBase {
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    color-mix(in srgb, var(--border) 60%, var(--bg)) 50%,
+    var(--border) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.skeletonList { display: flex; flex-direction: column; gap: 8px; }
+.skeletonRow {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px; gap: 12px;
+}
+.skeletonRowLeft { display: flex; align-items: center; gap: 12px; flex: 1; }
+.skeletonBadge  { height: 22px; width: 56px; border-radius: 20px; }
+.skeletonText   { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.skeletonName   { height: 16px; width: 55%; }
+.skeletonMeta   { height: 12px; width: 35%; }
+.skeletonRowRight { display: flex; gap: 8px; }
+.skeletonIcon   { height: 36px; width: 36px; border-radius: 6px; }
+
 @media (max-width: 480px) {
   .main { padding: 16px 12px 48px; }
   .title { font-size: 18px; }

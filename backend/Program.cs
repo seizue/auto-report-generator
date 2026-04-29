@@ -98,6 +98,54 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    // If the database already has tables but no migration history (e.g. created manually
+    // or by a previous run before migrations were tracked), seed the history so EF Core
+    // doesn't try to re-create existing tables.
+    var isSqlite = db.Database.ProviderName?.Contains("Sqlite") == true;
+    if (isSqlite)
+    {
+        db.Database.EnsureCreated(); // creates __EFMigrationsHistory if missing
+        var conn = db.Database.GetDbConnection();
+        conn.Open();
+
+        // Check whether the Reports table already exists
+        bool reportsExists;
+        using (var cmd = conn.CreateCommand())
+        {
+            cmd.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Reports';";
+            reportsExists = (long)(cmd.ExecuteScalar() ?? 0L) > 0;
+        }
+
+        // Check whether migration history is empty
+        bool historyEmpty;
+        using (var cmd = conn.CreateCommand())
+        {
+            cmd.CommandText = "SELECT COUNT(*) FROM \"__EFMigrationsHistory\";";
+            historyEmpty = (long)(cmd.ExecuteScalar() ?? 0L) == 0;
+        }
+
+        if (reportsExists && historyEmpty)
+        {
+            // Stamp all existing migrations as already applied
+            var migrations = new[]
+            {
+                "20260329044844_InitialCreate",
+                "20260329053844_FixPostgresColumnTypes",
+                "20260330032459_AddIsPremiumToTemplate"
+            };
+            foreach (var migrationId in migrations)
+            {
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = $"INSERT OR IGNORE INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('{migrationId}', '8.0.0');";
+                cmd.ExecuteNonQuery();
+            }
+            Console.WriteLine("Stamped existing migrations into history to avoid re-applying them.");
+        }
+
+        conn.Close();
+    }
+
     db.Database.Migrate();
 }
 

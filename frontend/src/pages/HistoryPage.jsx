@@ -84,7 +84,30 @@ export default function HistoryPage() {
   const totalPages = Math.max(1, Math.ceil(reports.length / PAGE_SIZE))
   const paginated = reports.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
-  if (loading) return <div className={styles.empty}>Loading...</div>
+  if (loading) return (
+    <main className={styles.main}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Report History</h1>
+      </div>
+      <div className={styles.skeletonList}>
+        {[...Array(PAGE_SIZE)].map((_, i) => (
+          <div key={i} className={styles.skeletonRow}>
+            <div className={styles.skeletonRowLeft}>
+              <div className={`${styles.skeletonBadge} ${styles.skeletonBase}`} />
+              <div className={styles.skeletonText}>
+                <div className={`${styles.skeletonName} ${styles.skeletonBase}`} />
+                <div className={`${styles.skeletonMeta} ${styles.skeletonBase}`} />
+              </div>
+            </div>
+            <div className={styles.skeletonRowRight}>
+              <div className={`${styles.skeletonIcon} ${styles.skeletonBase}`} />
+              <div className={`${styles.skeletonIcon} ${styles.skeletonBase}`} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
 
   return (
     <main className={styles.main}>

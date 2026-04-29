@@ -208,10 +208,52 @@ body.dark .editingBanner { background: #451a0322; border-color: #d9770633; color
 .modeBtn:hover { color: var(--primary); }
 .modeActive { background: var(--primary) !important; color: #fff !important; }
 
+/* ── Skeleton loader ── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.skeletonBase {
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    color-mix(in srgb, var(--border) 60%, var(--bg)) 50%,
+    var(--border) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.skeleton {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.skeletonBar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.skeletonTitle { height: 20px; width: 220px; }
+.skeletonBtns { display: flex; gap: 8px; }
+.skeletonBtn  { height: 36px; width: 90px; border-radius: 8px; }
+.skeletonHeading { height: 22px; width: 280px; }
+.skeletonMetrics { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.skeletonMetric { flex: 1; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; border-right: 1px solid var(--border); }
+.skeletonMetric:last-child { border-right: none; }
+.skeletonMetricVal  { height: 26px; width: 40px; }
+.skeletonMetricLbl  { height: 12px; width: 60px; }
+.skeletonCharts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .skeletonCharts { grid-template-columns: 1fr; } }
+.skeletonChart { border: 1px solid var(--border); border-radius: 10px; padding: 14px; height: 260px; }
+.skeletonLine { height: 14px; }
+.skeletonLineShort { height: 14px; width: 60%; }
+.skeletonPara { display: flex; flex-direction: column; gap: 8px; }
+.skeletonGroups { display: flex; flex-direction: column; gap: 8px; }
+.skeletonGroup { height: 44px; border-radius: 8px; }
+
 @media (max-width: 480px) {
   .main { padding: 16px 12px 48px; }
   .card { padding: 16px; }
   .result { padding: 16px; }
+  .skeleton { padding: 16px; }
   .title { font-size: 22px; }
   .resultTitle { font-size: 16px; }
   .modeBtn { padding: 8px 12px; font-size: 12px; }

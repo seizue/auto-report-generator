@@ -266,8 +266,51 @@ export default function SummaryPage() {
         </div>
       )}
 
+      {/* Result skeleton while generating */}
+      {loading && (
+        <div className={styles.skeleton}>
+          {/* top bar */}
+          <div className={styles.skeletonBar}>
+            <div className={`${styles.skeletonTitle} ${styles.skeletonBase}`} />
+            <div className={styles.skeletonBtns}>
+              <div className={`${styles.skeletonBtn} ${styles.skeletonBase}`} />
+              <div className={`${styles.skeletonBtn} ${styles.skeletonBase}`} />
+              <div className={`${styles.skeletonBtn} ${styles.skeletonBase}`} />
+            </div>
+          </div>
+          {/* heading */}
+          <div className={`${styles.skeletonHeading} ${styles.skeletonBase}`} />
+          {/* metrics strip */}
+          <div className={styles.skeletonMetrics}>
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className={styles.skeletonMetric}>
+                <div className={`${styles.skeletonMetricVal} ${styles.skeletonBase}`} />
+                <div className={`${styles.skeletonMetricLbl} ${styles.skeletonBase}`} />
+              </div>
+            ))}
+          </div>
+          {/* charts */}
+          <div className={styles.skeletonCharts}>
+            <div className={`${styles.skeletonChart} ${styles.skeletonBase}`} />
+            <div className={`${styles.skeletonChart} ${styles.skeletonBase}`} />
+          </div>
+          {/* summary paragraph */}
+          <div className={styles.skeletonPara}>
+            <div className={`${styles.skeletonLine} ${styles.skeletonBase}`} />
+            <div className={`${styles.skeletonLine} ${styles.skeletonBase}`} />
+            <div className={`${styles.skeletonLineShort} ${styles.skeletonBase}`} />
+          </div>
+          {/* activity groups */}
+          <div className={styles.skeletonGroups}>
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className={`${styles.skeletonGroup} ${styles.skeletonBase}`} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Result */}
-      {result && (
+      {!loading && result && (
         <div id="summary-result" className={styles.result}>
 
           <div className={styles.resultBar}>
