@@ -13,6 +13,8 @@ namespace AutoReportGenerator.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            var isSqlite = ActiveProvider == "Microsoft.EntityFrameworkCore.Sqlite";
+
             migrationBuilder.CreateTable(
                 name: "Reports",
                 columns: table => new
@@ -20,15 +22,24 @@ namespace AutoReportGenerator.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true)
                         .Annotation("Npgsql:ValueGenerationStrategy", Npgsql.EntityFrameworkCore.PostgreSQL.Metadata.NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ClientId = table.Column<string>(nullable: false, defaultValue: ""),
                     Name = table.Column<string>(nullable: false),
                     Department = table.Column<string>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    TimeIn = table.Column<TimeSpan>(nullable: false),
-                    TimeOut = table.Column<TimeSpan>(nullable: false),
+                    Date = isSqlite
+                        ? table.Column<DateTime>(type: "TEXT", nullable: false)
+                        : table.Column<DateTime>(type: "timestamp", nullable: false),
+                    TimeIn = isSqlite
+                        ? table.Column<TimeSpan>(type: "TEXT", nullable: false)
+                        : table.Column<TimeSpan>(type: "interval", nullable: false),
+                    TimeOut = isSqlite
+                        ? table.Column<TimeSpan>(type: "TEXT", nullable: false)
+                        : table.Column<TimeSpan>(type: "interval", nullable: false),
                     Notes = table.Column<string>(nullable: false),
                     TemplateType = table.Column<string>(nullable: false),
                     ListStyle = table.Column<string>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: false)
+                    CreatedAt = isSqlite
+                        ? table.Column<DateTime>(type: "TEXT", nullable: false)
+                        : table.Column<DateTime>(type: "timestamp", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -94,14 +105,9 @@ namespace AutoReportGenerator.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ReportItems");
-
-            migrationBuilder.DropTable(
-                name: "Templates");
-
-            migrationBuilder.DropTable(
-                name: "Reports");
+            migrationBuilder.DropTable(name: "ReportItems");
+            migrationBuilder.DropTable(name: "Templates");
+            migrationBuilder.DropTable(name: "Reports");
         }
     }
 }

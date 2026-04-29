@@ -15,6 +15,11 @@ public class ReportsController(
     DocxExportService docxService,
     TextParserService parser) : ControllerBase
 {
+    // Reads the anonymous browser identity sent by the frontend
+    private string ClientId => Request.Headers.TryGetValue("X-Client-Id", out var v)
+        ? v.ToString().Trim()
+        : string.Empty;
+
     [HttpPost("parse-text")]
     public ActionResult<ParsedReportData> ParseText([FromBody] ParseRequest request)
     {
@@ -35,6 +40,7 @@ public class ReportsController(
 
         var report = new Report
         {
+            ClientId = ClientId,
             Name = request.Name,
             Department = request.Department,
             Date = request.Date,
@@ -58,14 +64,14 @@ public class ReportsController(
     [HttpGet("reports")]
     public async Task<ActionResult<List<ReportResponse>>> GetAll()
     {
-        var reports = await repo.GetAllAsync();
+        var reports = await repo.GetAllAsync(ClientId);
         return Ok(reports.Select(MapToResponse));
     }
 
     [HttpGet("reports/{id}")]
     public async Task<ActionResult<ReportResponse>> GetById(int id)
     {
-        var report = await repo.GetByIdAsync(id);
+        var report = await repo.GetByIdAsync(id, ClientId);
         if (report is null) return NotFound();
         return Ok(MapToResponse(report));
     }
@@ -96,7 +102,7 @@ public class ReportsController(
             }).ToList()
         };
 
-        var result = await repo.UpdateAsync(id, updated);
+        var result = await repo.UpdateAsync(id, updated, ClientId);
         if (result is null) return NotFound();
         return Ok(MapToResponse(result));
     }
@@ -104,21 +110,21 @@ public class ReportsController(
     [HttpDelete("reports/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await repo.DeleteAsync(id);
+        var deleted = await repo.DeleteAsync(id, ClientId);
         return deleted ? NoContent() : NotFound();
     }
 
     [HttpDelete("reports")]
     public async Task<IActionResult> DeleteAll()
     {
-        await repo.DeleteAllAsync();
+        await repo.DeleteAllAsync(ClientId);
         return NoContent();
     }
 
     [HttpPost("export/pdf/{id}")]
     public async Task<IActionResult> ExportPdf(int id)
     {
-        var report = await repo.GetByIdAsync(id);
+        var report = await repo.GetByIdAsync(id, ClientId);
         if (report is null) return NotFound();
         var bytes = pdfService.Export(report);
         return File(bytes, "application/pdf", $"report_{id}.pdf");
@@ -127,7 +133,7 @@ public class ReportsController(
     [HttpPost("export/docx/{id}")]
     public async Task<IActionResult> ExportDocx(int id)
     {
-        var report = await repo.GetByIdAsync(id);
+        var report = await repo.GetByIdAsync(id, ClientId);
         if (report is null) return NotFound();
         var bytes = docxService.Export(report);
         return File(bytes, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"report_{id}.docx");

@@ -67,8 +67,12 @@ if (usePostgres)
 }
 else
 {
+    // Always store the DB next to the executable so the path is consistent
+    // regardless of which directory `dotnet run` is invoked from.
+    var dbPath = Path.Combine(AppContext.BaseDirectory, "reports.db");
     builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseSqlite(builder.Configuration.GetConnectionString("Sqlite") ?? "Data Source=reports.db"));
+        opt.UseSqlite($"Data Source={dbPath}")
+           .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 }
 
 builder.Services.AddScoped<ReportRepository>();
@@ -98,54 +102,83 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var isSqlite   = db.Database.ProviderName?.Contains("Sqlite")   == true;
+    var isPostgres = db.Database.ProviderName?.Contains("Npgsql")   == true;
 
-    // If the database already has tables but no migration history (e.g. created manually
-    // or by a previous run before migrations were tracked), seed the history so EF Core
-    // doesn't try to re-create existing tables.
-    var isSqlite = db.Database.ProviderName?.Contains("Sqlite") == true;
-    if (isSqlite)
+    var conn = db.Database.GetDbConnection();
+    conn.Open();
+
+    // Ensure __EFMigrationsHistory table exists
+    using (var cmd = conn.CreateCommand())
     {
-        db.Database.EnsureCreated(); // creates __EFMigrationsHistory if missing
-        var conn = db.Database.GetDbConnection();
-        conn.Open();
-
-        // Check whether the Reports table already exists
-        bool reportsExists;
-        using (var cmd = conn.CreateCommand())
-        {
-            cmd.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Reports';";
-            reportsExists = (long)(cmd.ExecuteScalar() ?? 0L) > 0;
-        }
-
-        // Check whether migration history is empty
-        bool historyEmpty;
-        using (var cmd = conn.CreateCommand())
-        {
-            cmd.CommandText = "SELECT COUNT(*) FROM \"__EFMigrationsHistory\";";
-            historyEmpty = (long)(cmd.ExecuteScalar() ?? 0L) == 0;
-        }
-
-        if (reportsExists && historyEmpty)
-        {
-            // Stamp all existing migrations as already applied
-            var migrations = new[]
-            {
-                "20260329044844_InitialCreate",
-                "20260329053844_FixPostgresColumnTypes",
-                "20260330032459_AddIsPremiumToTemplate"
-            };
-            foreach (var migrationId in migrations)
-            {
-                using var cmd = conn.CreateCommand();
-                cmd.CommandText = $"INSERT OR IGNORE INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('{migrationId}', '8.0.0');";
-                cmd.ExecuteNonQuery();
-            }
-            Console.WriteLine("Stamped existing migrations into history to avoid re-applying them.");
-        }
-
-        conn.Close();
+        cmd.CommandText = isSqlite
+            ? "CREATE TABLE IF NOT EXISTS \"__EFMigrationsHistory\" (\"MigrationId\" TEXT NOT NULL CONSTRAINT \"PK___EFMigrationsHistory\" PRIMARY KEY, \"ProductVersion\" TEXT NOT NULL);"
+            : "CREATE TABLE IF NOT EXISTS \"__EFMigrationsHistory\" (\"MigrationId\" varchar(150) NOT NULL, \"ProductVersion\" varchar(32) NOT NULL, CONSTRAINT \"PK___EFMigrationsHistory\" PRIMARY KEY (\"MigrationId\"));";
+        cmd.ExecuteNonQuery();
     }
 
+    // Check if Reports table already exists (legacy DB)
+    bool reportsExists;
+    using (var cmd = conn.CreateCommand())
+    {
+        cmd.CommandText = isSqlite
+            ? "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Reports';"
+            : "SELECT COUNT(*) FROM information_schema.tables WHERE table_name='Reports';";
+        reportsExists = Convert.ToInt64(cmd.ExecuteScalar() ?? 0L) > 0;
+    }
+
+    // Check if migration history is empty
+    bool historyEmpty;
+    using (var cmd = conn.CreateCommand())
+    {
+        cmd.CommandText = "SELECT COUNT(*) FROM \"__EFMigrationsHistory\";";
+        historyEmpty = Convert.ToInt64(cmd.ExecuteScalar() ?? 0L) == 0;
+    }
+
+    if (reportsExists && historyEmpty)
+    {
+        // Legacy DB: tables exist but were never migration-tracked.
+        // Stamp all 3 original migrations so Migrate() won't try to recreate tables.
+        var toStamp = new[]
+        {
+            "20260329044844_InitialCreate",
+            "20260329053844_FixPostgresColumnTypes",
+            "20260330032459_AddIsPremiumToTemplate"
+        };
+        foreach (var migrationId in toStamp)
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = isSqlite
+                ? $"INSERT OR IGNORE INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('{migrationId}', '8.0.0');"
+                : $"INSERT INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('{migrationId}', '8.0.0') ON CONFLICT DO NOTHING;";
+            cmd.ExecuteNonQuery();
+        }
+
+        // Add ClientId column directly if it doesn't exist yet
+        bool clientIdExists;
+        using (var cmd = conn.CreateCommand())
+        {
+            cmd.CommandText = isSqlite
+                ? "SELECT COUNT(*) FROM pragma_table_info('Reports') WHERE name='ClientId';"
+                : "SELECT COUNT(*) FROM information_schema.columns WHERE table_name='Reports' AND column_name='ClientId';";
+            clientIdExists = Convert.ToInt64(cmd.ExecuteScalar() ?? 0L) > 0;
+        }
+        if (!clientIdExists)
+        {
+            using var cmd = conn.CreateCommand();
+            // SQLite and Postgres both support this syntax
+            cmd.CommandText = "ALTER TABLE \"Reports\" ADD COLUMN \"ClientId\" TEXT NOT NULL DEFAULT '';";
+            cmd.ExecuteNonQuery();
+            // Delete old rows — they have no client identity and are permanently invisible
+            cmd.CommandText = "DELETE FROM \"Reports\" WHERE \"ClientId\" = '';";
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("Added ClientId column and removed legacy rows.");
+        }
+
+        Console.WriteLine("Stamped legacy migrations into history.");
+    }
+
+    conn.Close();
     db.Database.Migrate();
 }
 

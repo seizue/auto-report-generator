@@ -3,6 +3,7 @@ namespace AutoReportGenerator.Models;
 public class Report
 {
     public int Id { get; set; }
+    public string ClientId { get; set; } = string.Empty; // anonymous browser identity
     public string Name { get; set; } = string.Empty;
     public string Department { get; set; } = string.Empty;
     public DateTime Date { get; set; }

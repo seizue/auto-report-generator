@@ -17,15 +17,28 @@ public class ReportRepository(AppDbContext db)
             .FirstAsync(r => r.Id == report.Id);
     }
 
-    public async Task<List<Report>> GetAllAsync() =>
-        await db.Reports.Include(r => r.Items).OrderByDescending(r => r.CreatedAt).ToListAsync();
-
-    public async Task<Report?> GetByIdAsync(int id) =>
-        await db.Reports.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
-
-    public async Task<Report?> UpdateAsync(int id, Report updated)
+    public async Task<List<Report>> GetAllAsync(string? clientId = null)
     {
-        var existing = await db.Reports.Include(r => r.Items).FirstOrDefaultAsync(r => r.Id == id);
+        var query = db.Reports.Include(r => r.Items).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(clientId))
+            query = query.Where(r => r.ClientId == clientId);
+        return await query.OrderByDescending(r => r.CreatedAt).ToListAsync();
+    }
+
+    public async Task<Report?> GetByIdAsync(int id, string? clientId = null)
+    {
+        var query = db.Reports.Include(r => r.Items).Where(r => r.Id == id);
+        if (!string.IsNullOrWhiteSpace(clientId))
+            query = query.Where(r => r.ClientId == clientId);
+        return await query.FirstOrDefaultAsync();
+    }
+
+    public async Task<Report?> UpdateAsync(int id, Report updated, string? clientId = null)
+    {
+        var query = db.Reports.Include(r => r.Items).Where(r => r.Id == id);
+        if (!string.IsNullOrWhiteSpace(clientId))
+            query = query.Where(r => r.ClientId == clientId);
+        var existing = await query.FirstOrDefaultAsync();
         if (existing is null) return null;
 
         existing.Name         = updated.Name;
@@ -44,18 +57,24 @@ public class ReportRepository(AppDbContext db)
         return existing;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id, string? clientId = null)
     {
-        var report = await db.Reports.FindAsync(id);
+        var query = db.Reports.Where(r => r.Id == id);
+        if (!string.IsNullOrWhiteSpace(clientId))
+            query = query.Where(r => r.ClientId == clientId);
+        var report = await query.FirstOrDefaultAsync();
         if (report is null) return false;
         db.Reports.Remove(report);
         await db.SaveChangesAsync();
         return true;
     }
 
-    public async Task DeleteAllAsync()
+    public async Task DeleteAllAsync(string? clientId = null)
     {
-        db.Reports.RemoveRange(db.Reports);
+        if (!string.IsNullOrWhiteSpace(clientId))
+            db.Reports.RemoveRange(db.Reports.Where(r => r.ClientId == clientId));
+        else
+            db.Reports.RemoveRange(db.Reports);
         await db.SaveChangesAsync();
     }
 }

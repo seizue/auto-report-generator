@@ -41,8 +41,13 @@ public class SummaryController : ControllerBase
         // Save to database if requested (default: true)
         if (request.SaveToHistory ?? true)
         {
+            var clientId = Request.Headers.TryGetValue("X-Client-Id", out var v)
+                ? v.ToString().Trim()
+                : string.Empty;
+
             var report = new Report
             {
+                ClientId = clientId,
                 Name = result.AuthorName ?? "Summary Report",
                 Department = result.Department ?? "General",
                 Date = DateTime.TryParse(result.Period, out var dt) ? dt : DateTime.Today,
