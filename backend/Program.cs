@@ -154,7 +154,12 @@ using (var scope = app.Services.CreateScope())
             cmd.ExecuteNonQuery();
         }
 
-        // Add ClientId column directly if it doesn't exist yet
+        Console.WriteLine("Stamped legacy migrations into history.");
+    }
+
+    // Handle ClientId column — runs for both legacy and existing DBs
+    if (reportsExists)
+    {
         bool clientIdExists;
         using (var cmd = conn.CreateCommand())
         {
@@ -175,7 +180,15 @@ using (var scope = app.Services.CreateScope())
             Console.WriteLine("Added ClientId column and removed legacy rows.");
         }
 
-        Console.WriteLine("Stamped legacy migrations into history.");
+        // Always stamp the ClientId migration — whether we just added the column
+        // or it already existed, the migration must not run again.
+        using (var cmd = conn.CreateCommand())
+        {
+            cmd.CommandText = isSqlite
+                ? "INSERT OR IGNORE INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('20260503061004_AddClientIdToReport', '8.0.0');"
+                : "INSERT INTO \"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ('20260503061004_AddClientIdToReport', '8.0.0') ON CONFLICT DO NOTHING;";
+            cmd.ExecuteNonQuery();
+        }
     }
 
     conn.Close();
