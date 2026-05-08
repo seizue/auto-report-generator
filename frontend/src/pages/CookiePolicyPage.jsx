@@ -16,7 +16,7 @@ export default function CookiePolicyPage() {
           <Cookie size={32} />
         </div>
         <h1 className={styles.title}>Cookie Policy</h1>
-        <p className={styles.updated}>Last Updated: March 28, 2026</p>
+        <p className={styles.updated}>Last Updated: May 8, 2026</p>
       </div>
 
       <div className={styles.content}>
@@ -76,19 +76,51 @@ export default function CookiePolicyPage() {
             <li><strong>Usage statistics:</strong> Anonymous data about page views and interactions</li>
             <li><strong>Performance metrics:</strong> Information about site performance</li>
           </ul>
+
+          <h3>3.4 Advertising Cookies (Optional)</h3>
+          <p>
+            We use Google AdSense to display advertisements on our website. Google AdSense uses 
+            cookies to serve ads based on your prior visits to our website or other websites on 
+            the internet. These cookies allow Google and its partners to serve ads to you based 
+            on your visit to our site and/or other sites on the internet.
+          </p>
+          <ul>
+            <li><strong>Google AdSense:</strong> Used to display relevant advertisements and measure ad performance</li>
+            <li><strong>DoubleClick (Google):</strong> Used for ad targeting and frequency capping</li>
+            <li><strong>Google Ad Manager:</strong> Used to manage and deliver advertisements</li>
+          </ul>
+          <p>
+            You may opt out of personalized advertising by visiting{' '}
+            <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">
+              Google Ads Settings
+            </a>{' '}
+            or{' '}
+            <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">
+              www.aboutads.info/choices
+            </a>.
+          </p>
         </section>
 
         <section>
           <h2>4. Third-Party Cookies</h2>
           <p>
-            We may use third-party services that set cookies on your device. These services are 
+            We use third-party services that may set cookies on your device. These services are 
             carefully selected and comply with GDPR requirements. Third-party cookies may include:
           </p>
           <ul>
-            <li>Analytics providers (e.g., Google Analytics)</li>
+            <li><strong>Google AdSense</strong> — Advertising and ad personalization (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>)</li>
+            <li><strong>Google Analytics</strong> — Anonymous usage statistics and performance metrics</li>
             <li>Content delivery networks (CDNs)</li>
             <li>Security and fraud prevention services</li>
           </ul>
+          <p>
+            Google's use of advertising cookies enables it and its partners to serve ads based on 
+            your visit to our site and/or other sites on the internet. You can learn more about 
+            how Google uses data when you use our site at{' '}
+            <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
+              How Google uses data from sites that use our services
+            </a>.
+          </p>
         </section>
 
         <section>

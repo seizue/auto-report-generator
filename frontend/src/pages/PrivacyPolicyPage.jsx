@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
           <Shield size={32} />
         </div>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.updated}>Last Updated: March 28, 2026</p>
+        <p className={styles.updated}>Last Updated: May 8, 2026</p>
       </div>
 
       <div className={styles.content}>
@@ -114,11 +114,43 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h2>9. Third-Party Services</h2>
+          <h2>9. Third-Party Services &amp; Advertising</h2>
           <p>
-            We do not share your personal information with third parties except as necessary to 
-            provide our services or as required by law. Any third-party services we use are 
-            GDPR-compliant and process data according to our instructions.
+            We use Google AdSense to display advertisements on our website. Google AdSense is an 
+            advertising service provided by Google LLC. Google uses cookies to serve ads based on 
+            your prior visits to our website or other websites. This means Google may use 
+            information about your visits to this and other websites to provide relevant 
+            advertisements about goods and services that may interest you.
+          </p>
+          <p>
+            By using our website, you acknowledge that your data may be shared with Google for 
+            advertising purposes. Google's use of advertising cookies enables it and its partners 
+            to serve ads based on your visit to our site and/or other sites on the internet.
+          </p>
+          <ul>
+            <li>
+              You may opt out of personalized advertising by visiting{' '}
+              <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">
+                Google Ads Settings
+              </a>
+            </li>
+            <li>
+              Learn how Google uses data:{' '}
+              <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
+                How Google uses data from sites that use our services
+              </a>
+            </li>
+            <li>
+              Google Privacy Policy:{' '}
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+                policies.google.com/privacy
+              </a>
+            </li>
+          </ul>
+          <p>
+            Other than Google AdSense, we do not share your personal information with third parties 
+            except as necessary to provide our services or as required by law. Any third-party 
+            services we use are GDPR-compliant and process data according to our instructions.
           </p>
         </section>
 

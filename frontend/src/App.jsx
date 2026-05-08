@@ -38,10 +38,8 @@ export default function App() {
         </Routes>
       </div>
 
-      {/* Bottom ad banner */}
-      <div className="ad-banner" style={{ height: 60, maxWidth: 960, margin: '0 auto 0', width: '100%', padding: '0 16px' }}>
-        Advertisement
-      </div>
+      {/* Ad banner placeholder — AdSense unit will be placed here after approval */}
+      {/* <div className="ad-banner" style={{ height: 60, maxWidth: 960, margin: '0 auto', width: '100%', padding: '0 16px' }} /> */}
 
       <Footer />
     </div>
