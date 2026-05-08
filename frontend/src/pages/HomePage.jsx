@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Plus, Trash2, Zap, Pencil, AlignLeft, LayoutList, Sparkles } from 'lucide-react'
+import { Plus, Zap, Pencil, AlignLeft, LayoutList, Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
 import { generateReport, updateReport, getReport, parseText, generateSummary } from '../services/api'
@@ -179,8 +179,25 @@ export default function HomePage() {
 
   if (loadingEdit) return <div className={styles.loadingEdit}>Loading report...</div>
 
+  // Determine overlay message
+  const overlayMessage = loading
+    ? (editId ? 'Updating report' : 'Generating report')
+    : parsing
+      ? (pasteStep === 'idle' ? 'Generating report' : 'Extracting tasks')
+      : null
+
   return (
     <main className={styles.main}>
+
+      {/* Full-page loading overlay */}
+      {overlayMessage && (
+        <div className={styles.loadingOverlay} aria-live="polite" aria-label="Loading">
+          <div className={styles.loadingOverlaySpinner} />
+          <div className={styles.loadingOverlayText}>
+            {overlayMessage}<span className={styles.loadingDots} />
+          </div>
+        </div>
+      )}
       <div className={styles.hero}>
         {editId ? (
           <>
@@ -276,7 +293,10 @@ export default function HomePage() {
               </div>
               <p className={styles.pathDesc}>Generates a paragraph-style summary report instantly — no form, no tasks.</p>
               <button type="button" className={styles.generateBtn} onClick={handleGenerateDirect} disabled={parsing}>
-                {parsing ? 'Generating...' : 'Generate Now'}
+                {parsing
+                  ? <><span className={styles.spinner} /> Generating...</>
+                  : <><Zap size={15} /> Generate Now</>
+                }
               </button>
             </div>
             <div className={styles.pathDivider}>or</div>
@@ -286,7 +306,10 @@ export default function HomePage() {
               </div>
               <p className={styles.pathDesc}>Extract tasks from your text, review and edit them, then generate a task-based report.</p>
               <button type="button" className={styles.extractBtn} onClick={handleExtract} disabled={parsing}>
-                {parsing ? 'Extracting...' : 'Extract & Edit First'}
+                {parsing
+                  ? <><span className={styles.spinnerMuted} /> Extracting...</>
+                  : <><Sparkles size={14} /> Extract &amp; Edit First</>
+                }
               </button>
             </div>
           </div>
@@ -439,11 +462,13 @@ export default function HomePage() {
                 </button>
               </>
             )}
-            <button type="submit" className={styles.generateBtn} disabled={loading}>
-              {editId ? <Pencil size={16} /> : <Zap size={16} />}
+            <button type="submit" className={styles.generateBtn} disabled={loading || parsing}>
               {loading
-                ? (editId ? 'Updating...' : 'Generating...')
-                : (editId ? 'Regenerate Report' : 'Generate Report')}
+                ? <><span className={styles.spinner} />{editId ? 'Updating...' : 'Generating...'}</>
+                : parsing
+                  ? <><span className={styles.spinner} /> Extracting...</>
+                  : <>{editId ? <Pencil size={16} /> : <Zap size={16} />}{editId ? 'Regenerate Report' : 'Generate Report'}</>
+              }
             </button>
           </div>
         </form>

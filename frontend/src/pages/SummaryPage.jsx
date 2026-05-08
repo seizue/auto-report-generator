@@ -259,8 +259,10 @@ export default function SummaryPage() {
               </button>
             )}
             <button className={styles.generateBtn} onClick={handleGenerate} disabled={loading}>
-              <Sparkles size={16} />
-              {loading ? 'Generating...' : editing ? 'Regenerate Report' : 'Generate Summary Report'}
+              {loading
+                ? <><span className={styles.spinner} />{editing ? 'Regenerating...' : 'Generating...'}</>
+                : <><Sparkles size={16} />{editing ? 'Regenerate Report' : 'Generate Summary Report'}</>
+              }
             </button>
           </div>
         </div>
